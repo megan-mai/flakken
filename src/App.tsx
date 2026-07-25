@@ -40,7 +40,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <div className={isStaticHeader ? 'relative' : ''}>
         <Nav textColor={textColor} responsive={isStaticHeader} />
         <img
@@ -56,18 +56,20 @@ function App() {
       <div className={isStaticHeader ? 'hidden md:block' : ''}>
         <Title textColor={textColor} subtitle={subtitle} nowFlying={nowFlying} />
       </div>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/archive" element={<Archive />} />
-        <Route path="/archive/:slug" element={<FlagDetail />} />
-        <Route path="/merch" element={<Merch />} />
-        <Route path="/merch/:slug" element={<MerchDetail />} />
-        <Route path="/info" element={<Info />} />
-      </Routes>
+      <div className="flex-1 min-h-0">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/archive" element={<Archive />} />
+          <Route path="/archive/:slug" element={<FlagDetail />} />
+          <Route path="/merch" element={<Merch />} />
+          <Route path="/merch/:slug" element={<MerchDetail />} />
+          <Route path="/info" element={<Info />} />
+        </Routes>
+      </div>
       <p className="md:hidden pl-4 text-sm text-red-500 pb-4">
         Curated and presented by SAP Magazine
       </p>
-    </>
+    </div>
   )
 }
 
