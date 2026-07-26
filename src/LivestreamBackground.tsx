@@ -43,7 +43,6 @@ function LivestreamBackground({
         <div className="text-sm text-center text-red-500">
           {nowFlying && <div className="text-xs md:text-sm">{nowFlying}</div>}
           <div >Chinatown, Manhattan</div>
-          <Clock />
         </div>
       </div>
 
