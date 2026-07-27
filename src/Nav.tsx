@@ -5,8 +5,8 @@ const activeClass = ({ isActive }: { isActive: boolean }) => (isActive ? 'text-b
 
 function Nav({ textColor = 'text-red-900', responsive = false }: { textColor?: string; responsive?: boolean }) {
   const positionClasses = responsive
-    ? 'p-8 md:p-0 md:fixed md:top-8 md:left-8 md:z-20'
-    : 'fixed top-8 left-8 z-20'
+    ? 'p-6 md:p-0 md:fixed md:top-8 md:left-8 md:z-20'
+    : 'fixed top-6 left-6 md:top-8 md:left-8 z-20'
 
   return (
     <div

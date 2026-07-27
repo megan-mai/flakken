@@ -3,8 +3,8 @@ import flakkenLogo from './assets/flakken_logo.png'
 
 function Info() {
   return (
-    <main className="flex h-full overflow-hidden items-center py-4 px-4 md:px-0 justify-center">
-      <div className="text-black text-sm w-full md:w-[45vw] mx-4 space-y-8">
+    <main className="flex h-full overflow-hidden items-center py-4 px-6 md:px-0 justify-center">
+      <div className="text-black text-sm w-full md:w-[45vw] space-y-8">
         <img src={flakkenLogo} alt="Flakken" className="h-12 w-auto mx-auto" />
         <div className="flex flex-col gap-y-4">
           <p>

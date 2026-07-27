@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { client } from './sanityClient'
 import { urlFor } from './imageUrl'
+import ShopifyBuyButton from './ShopifyBuyButton'
 
 type MerchItem = {
   _id: string
@@ -37,23 +38,29 @@ function Merch() {
 
   return (
     <main>
-      <ul className="grid grid-cols-2 gap-4 w-full px-4 md:grid-cols-3 md:w-[50vw] md:px-0 mx-auto my-12 ">
-        {items.map((item) => (
+      <ul className="grid grid-cols-2 gap-4 w-full px-6 md:grid-cols-3 md:w-[50vw] md:px-0 mx-auto my-12 ">
+        {items.map((item, i) => (
           <li key={item._id} className="flex flex-col items-center">
             <div className="group relative w-full aspect-square">
               <div className="hidden md:flex absolute h-fit p-2 top-0 inset-x-0 items-center justify-center gap-2 text-sm text-white">
                 <h2>{item.name}</h2>
                 <p>${item.price}</p>
               </div>
-              {item.externalCheckoutUrl && (
-                <a
-                  href={item.externalCheckoutUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hidden md:flex absolute bg-black h-fit p-2 bottom-0 inset-x-0 items-center justify-center border border-current text-sm"
-                >
-                  Purchase
-                </a>
+              {i === 0 ? (
+                <div className="hidden md:flex absolute h-fit bottom-0 inset-x-0 items-center justify-center">
+                  <ShopifyBuyButton />
+                </div>
+              ) : (
+                item.externalCheckoutUrl && (
+                  <a
+                    href={item.externalCheckoutUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hidden md:flex absolute bg-black h-fit p-2 bottom-0 inset-x-0 items-center justify-center border border-current text-sm"
+                  >
+                    Purchase
+                  </a>
+                )
               )}
               {item.images?.[0] && (
                 <Link

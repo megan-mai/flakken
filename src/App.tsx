@@ -29,7 +29,7 @@ function App() {
   const isStaticHeader =
     pathname === '/merch' || pathname === '/archive' || pathname.startsWith('/archive/') || pathname === '/info'
   const textColor = pathname === '/' ? 'text-white' : 'text-red-500'
-  const subtitle = pathname === '/' ? 'Curated and Presented by SAP Magazine' : undefined
+  const subtitle = pathname === '/' ? 'Curated and presented by SAP Magazine' : undefined
   const nowFlying = pathname === '/' ? `Now flying: ${flag?.artistName ?? ''}` : undefined
 
   if (isStudio) {
@@ -50,8 +50,8 @@ function App() {
           alt="Market Gallery"
           className={
             isStaticHeader
-              ? 'absolute md:fixed top-8 right-8 z-20 h-12 w-auto'
-              : 'fixed top-8 right-8 z-20 h-12 w-auto'
+              ? 'absolute md:fixed top-6 right-6 md:top-8 md:right-8 z-20 h-12 w-auto'
+              : 'fixed top-6 right-6 md:top-8 md:right-8 z-20 h-12 w-auto'
           }
         />
       </div>
@@ -68,7 +68,7 @@ function App() {
           <Route path="/info" element={<Info />} />
         </Routes>
       </div>
-      <p className="md:hidden pl-4 text-sm text-red-500 pb-4">
+      <p className="md:hidden px-6 text-sm text-red-500 pb-4">
         Curated and presented by SAP Magazine
       </p>
     </div>

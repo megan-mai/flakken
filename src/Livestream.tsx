@@ -6,9 +6,10 @@ const SPLASH_DURATION_MS = 5000
 const SPLASH_FADE_MS = 400
 const DOT_INTERVAL_MS = 400
 
+// TEMP: disabled for testing the perimeter-crop fix — restore to true/true when done
 function Livestream({ visible }: { visible: boolean }) {
-  const [splashVisible, setSplashVisible] = useState(true)
-  const [splashMounted, setSplashMounted] = useState(true)
+  const [splashVisible, setSplashVisible] = useState(false)
+  const [splashMounted, setSplashMounted] = useState(false)
   const [dotCount, setDotCount] = useState(0)
 
   useEffect(() => {
@@ -36,7 +37,7 @@ function Livestream({ visible }: { visible: boolean }) {
         <iframe
                 src="https://www.youtube.com/embed/27FewYH2mQk?si=n7yc8537jUY12CKY?&autoplay=1&mute=1&controls=0&disablekb=1&iv_load_policy=3&rel=0&modestbranding=1&fs=0&rel=0&showinfo=0"
                 title="Flagpole Livestream"
-                className="absolute top-1/2 left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2"
+                className="absolute top-1/2 left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 scale-[1.15]"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
         />

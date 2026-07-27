@@ -50,11 +50,11 @@ function FlagDetail() {
   if (!flag) return <main>Loading...</main>
 
   return (
-    <main className="px-4 md:px-0">
-          {flag.image && (
-            <div className="flex justify-center mt-12">
-              <img src={urlFor(flag.image).width(800).url()} alt={flag.title} className="w-full max-w-2xl" />
-            </div>
+    <main className="px-6 md:px-0">
+      {flag.image && (
+        <div className="flex justify-center mt-12">
+          <img src={urlFor(flag.image).width(800).url()} alt={flag.title} className="w-full max-w-2xl" />
+        </div>
       )}
       {flag.gallery && flag.gallery.length > 0 && (
         <div className="flex flex-wrap justify-center gap-4 mt-8 max-w-4xl mx-auto">
@@ -69,13 +69,13 @@ function FlagDetail() {
         </div>
       )}
       <div
-        className="fixed bottom-12 inset-x-0 mx-4 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
+        className="fixed bottom-6 inset-x-0 mx-6 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
         onClick={() => setDescriptionExpanded((expanded) => !expanded)}
       >
-        <div className="relative">
+        <div className="relative pr-32">
           <div
             className={`absolute right-0 mr-2 flex items-center transition-all duration-300 ease-in-out ${
-              descriptionExpanded ? 'top-0 mt-2 ' : 'top-1/2 -translate-y-1/2'
+              descriptionExpanded ? 'top-0 mt-2' : 'top-1/2 -translate-y-1/2'
             }`}
           >
             <a
@@ -93,26 +93,26 @@ function FlagDetail() {
           <p><span className="font-bold">{flag.artistName}</span> (b.1999)</p>
           <div><span className="font-bold">{flag.title}</span>, ({flag.flownFrom} – {flag.flownTo})</div>
         </div>
-          <div
-            className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
-              descriptionExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-            }`}
-          >
-            <div className="overflow-hidden">
-              <div
-                className={`py-2 transition-opacity duration-300 ease-in-out ${
-                  descriptionExpanded ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                <PortableText value={flag.description} />
-              </div>
+        <div
+          className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+            descriptionExpanded ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div
+              className={`py-2 transition-opacity duration-300 ease-in-out ${
+                descriptionExpanded ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <PortableText value={flag.description} />
             </div>
           </div>
-          {flag.artistPhoto && <img src={urlFor(flag.artistPhoto).width(200).url()} alt={flag.artistName} />}
-          {flag.artistWebsite && <a href={flag.artistWebsite} target="_blank" rel="noopener noreferrer">Website</a>}
+        </div>
+        {flag.artistPhoto && <img src={urlFor(flag.artistPhoto).width(200).url()} alt={flag.artistName} />}
+        {flag.artistWebsite && <a href={flag.artistWebsite} target="_blank" rel="noopener noreferrer">Website</a>}
         {flag.artistInstagram && <a href={flag.artistInstagram} target="_blank" rel="noopener noreferrer">Instagram</a>}
       </div>
-        </main>
+    </main>
   )
 }
 
