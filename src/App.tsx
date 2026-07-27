@@ -8,6 +8,7 @@ import marketLogo from './assets/market_logo.png'
 import Nav from './Nav'
 import Title from './Title'
 import Home from './Home'
+import Livestream from './Livestream'
 import Archive from './Archive'
 import Merch from './Merch'
 import Info from './Info'
@@ -41,6 +42,7 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Livestream visible={pathname === '/'} />
       <div className={isStaticHeader ? 'relative' : ''}>
         <Nav textColor={textColor} responsive={isStaticHeader} />
         <img
