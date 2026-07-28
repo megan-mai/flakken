@@ -26,7 +26,11 @@ function App() {
 
   const isStudio = pathname.startsWith('/studio')
   const isStaticHeader =
-    pathname === '/merch' || pathname === '/archive' || pathname.startsWith('/archive/') || pathname === '/info'
+    pathname === '/merch' ||
+    pathname.startsWith('/merch/') ||
+    pathname === '/archive' ||
+    pathname.startsWith('/archive/') ||
+    pathname === '/info'
   const textColor = pathname === '/' ? 'text-white' : 'text-red-500'
   const subtitle =
     pathname === '/' ? (

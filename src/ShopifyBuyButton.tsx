@@ -128,7 +128,7 @@ function ShopifyBuyButton({ productId }: { productId: string }) {
     }
   }, [productId])
 
-  return <div ref={nodeRef} />
+  return <div ref={nodeRef} className="w-[100px] h-[42px] overflow-hidden -mt-4" />
 }
 
 export default ShopifyBuyButton

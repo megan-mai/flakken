@@ -55,8 +55,8 @@ function MerchDetail() {
       >
         <div className="relative pr-32">
           <div
-            className={`absolute right-0 mr-2 flex items-center transition-all duration-300 ease-in-out ${
-              descriptionExpanded ? 'top-0 mt-2' : 'top-1/2 -translate-y-1/2'
+            className={`absolute right-0 mr-2 flex items-center gap-2 transition-all duration-300 ease-in-out ${
+              descriptionExpanded ? 'top-0' : 'top-1/2 -translate-y-1/2'
             }`}
           >
             {item.shopifyProductId ? (
