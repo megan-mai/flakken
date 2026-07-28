@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { client } from './sanityClient'
 import { urlFor } from './imageUrl'
-import ShopifyBuyButton from './ShopifyBuyButton'
 
 type MerchItem = {
   _id: string
@@ -14,6 +13,7 @@ type MerchItem = {
   description: any
   inStock: boolean
   externalCheckoutUrl?: string
+  shopifyProductId?: string
 }
 
 function Merch() {
@@ -30,7 +30,8 @@ function Merch() {
           images,
           description,
           inStock,
-          externalCheckoutUrl
+          externalCheckoutUrl,
+          shopifyProductId
         }`
       )
       .then(setItems)
@@ -38,43 +39,19 @@ function Merch() {
 
   return (
     <main>
-      <ul className="grid grid-cols-2 gap-4 w-full px-6 md:grid-cols-3 md:w-[50vw] md:px-0 mx-auto my-12 ">
-        {items.map((item, i) => (
+      <ul className="grid grid-cols-2 gap-4 w-full px-5 md:grid-cols-2 md:w-[50vw] md:px-0 mx-auto my-12 ">
+        {items.map((item) => (
           <li key={item._id} className="flex flex-col items-center">
-            <div className="group relative w-full aspect-square">
-              <div className="hidden md:flex absolute h-fit p-2 top-0 inset-x-0 items-center justify-center gap-2 text-sm text-white">
-                <h2>{item.name}</h2>
-                <p>${item.price}</p>
-              </div>
-              {i === 0 ? (
-                <div className="hidden md:flex absolute h-fit bottom-0 inset-x-0 items-center justify-center">
-                  <ShopifyBuyButton />
-                </div>
-              ) : (
-                item.externalCheckoutUrl && (
-                  <a
-                    href={item.externalCheckoutUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hidden md:flex absolute bg-black h-fit p-2 bottom-0 inset-x-0 items-center justify-center border border-current text-sm"
-                  >
-                    Purchase
-                  </a>
-                )
-              )}
+            <Link to={item.slug?.current ? `/merch/${item.slug.current}` : '#'} className="block w-full">
               {item.images?.[0] && (
-                <Link
-                  to={item.slug?.current ? `/merch/${item.slug.current}` : '#'}
-                  className="absolute inset-0 block transition-opacity duration-200 md:group-hover:opacity-0 md:group-hover:pointer-events-none"
-                >
-                  <img
-                    src={urlFor(item.images[0]).width(400).url()}
-                    alt={item.name}
-                    className="w-full h-full object-cover"
-                  />
-                </Link>
+                <img
+                  src={urlFor(item.images[0]).width(400).url()}
+                  alt={item.name}
+                  className="w-full aspect-square object-cover"
+                />
               )}
-            </div>
+              <p className="text-xs leading-tight mt-1">{item.name} – ${item.price}</p>
+            </Link>
             {!item.slug?.current && <p className="text-sm">(no slug set)</p>}
             {!item.inStock && <p>Sold out</p>}
           </li>

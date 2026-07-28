@@ -8,7 +8,6 @@ import marketLogo from './assets/market_logo.png'
 import Nav from './Nav'
 import Title from './Title'
 import Home from './Home'
-import Livestream from './Livestream'
 import Archive from './Archive'
 import Merch from './Merch'
 import Info from './Info'
@@ -29,7 +28,20 @@ function App() {
   const isStaticHeader =
     pathname === '/merch' || pathname === '/archive' || pathname.startsWith('/archive/') || pathname === '/info'
   const textColor = pathname === '/' ? 'text-white' : 'text-red-500'
-  const subtitle = pathname === '/' ? 'Curated and presented by SAP Magazine' : undefined
+  const subtitle =
+    pathname === '/' ? (
+      <>
+        Curated and presented by{' '}
+        <a
+          href="https://sapmagazine.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-red-500"
+        >
+          SAP Magazine
+        </a>
+      </>
+    ) : undefined
   const nowFlying = pathname === '/' ? `Now flying: ${flag?.artistName ?? ''}` : undefined
 
   if (isStudio) {
@@ -42,25 +54,26 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Livestream visible={pathname === '/'} />
+      <Home visible={pathname === '/'} />
       <div className={isStaticHeader ? 'relative' : ''}>
         <Nav textColor={textColor} responsive={isStaticHeader} />
+        <a href="https://www.marketgallery.nyc/">
         <img
           src={marketLogo}
           alt="Market Gallery"
           className={
             isStaticHeader
-              ? 'absolute md:fixed top-6 right-6 md:top-8 md:right-8 z-20 h-12 w-auto'
-              : 'fixed top-6 right-6 md:top-8 md:right-8 z-20 h-12 w-auto'
+              ? 'absolute md:fixed top-5 right-5 md:top-8 md:right-8 z-20 h-12 w-auto'
+              : 'fixed top-5 right-5 md:top-8 md:right-8 z-20 h-12 w-auto'
           }
-        />
+          />
+        </a>
       </div>
       <div className={isStaticHeader ? 'hidden md:block' : ''}>
         <Title textColor={textColor} subtitle={subtitle} nowFlying={nowFlying} />
       </div>
       <div className="flex-1 min-h-0">
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/archive" element={<Archive />} />
           <Route path="/archive/:slug" element={<FlagDetail />} />
           <Route path="/merch" element={<Merch />} />
@@ -68,8 +81,16 @@ function App() {
           <Route path="/info" element={<Info />} />
         </Routes>
       </div>
-      <p className="md:hidden px-6 text-sm text-red-500 pb-4">
-        Curated and presented by SAP Magazine
+      <p className="md:hidden px-5 text-sm text-red-500 pb-4">
+        Curated and presented by{' '}
+        <a
+          href="https://sapmagazine.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-red-500"
+        >
+          SAP Magazine
+        </a>
       </p>
     </div>
   )

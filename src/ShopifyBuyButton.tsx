@@ -27,20 +27,20 @@ const PRODUCT_OPTIONS = {
   product: {
     styles: {
       product: {
-        '@media (min-width: 601px)': {
-          'max-width': 'calc(25% - 20px)',
-          'margin-left': '20px',
-          'margin-bottom': '50px',
-        },
+        'max-width': '140px',
+        'margin': '0',
       },
       button: {
         'font-family': 'Arial, sans-serif',
         ':hover': { 'background-color': '#3f3f3f' },
-        'background-color': '#252525',
+        'background-color': '#000000',
         ':focus': { 'background-color': '#3f3f3f' },
-        'border-radius': '2px',
-        'padding-left': '78px',
-        'padding-right': '78px',
+        'border-radius': '0px',
+        'font-size': '12px',
+        'padding-left': '12px',
+        'padding-right': '12px',
+        'padding-top': '4px',
+        'padding-bottom': '4px',
       },
     },
     contents: { img: false, title: false, price: false },
@@ -66,9 +66,9 @@ const PRODUCT_OPTIONS = {
       button: {
         'font-family': 'Arial, sans-serif',
         ':hover': { 'background-color': '#3f3f3f' },
-        'background-color': '#252525',
+        'background-color': '#000000',
         ':focus': { 'background-color': '#3f3f3f' },
-        'border-radius': '2px',
+        'border-radius': '0px',
         'padding-left': '78px',
         'padding-right': '78px',
       },
@@ -100,8 +100,7 @@ const PRODUCT_OPTIONS = {
   },
 }
 
-// TEST: hardcoded to a single Shopify product for now
-function ShopifyBuyButton() {
+function ShopifyBuyButton({ productId }: { productId: string }) {
   const nodeRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -116,7 +115,7 @@ function ShopifyBuyButton() {
       window.ShopifyBuy.UI.onReady(client).then((ui: any) => {
         if (cancelled || !nodeRef.current) return
         ui.createComponent('product', {
-          id: '9535683559644',
+          id: productId,
           node: nodeRef.current,
           moneyFormat: '%24%7B%7Bamount%7D%7D',
           options: PRODUCT_OPTIONS,
@@ -127,7 +126,7 @@ function ShopifyBuyButton() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [productId])
 
   return <div ref={nodeRef} />
 }

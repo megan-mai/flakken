@@ -14,6 +14,13 @@ export default defineType({
     defineField({ name: 'relatedFlag', title: 'Related Flag', type: 'reference', to: [{ type: 'flag' }] }),
     defineField({ name: 'inStock', title: 'In Stock', type: 'boolean', initialValue: true }),
     defineField({ name: 'externalCheckoutUrl', title: 'Checkout URL', type: 'url' }),
+    defineField({
+      name: 'shopifyProductId',
+      title: 'Shopify Product ID',
+      type: 'string',
+      description:
+        'Shopify Admin → Product → Copy the sequence of numbers at the end of the URL, e.g. 9535683559644 and paste it in this field',
+    }),
   ],
   preview: {
     select: { title: 'name', price: 'price', media: 'images.0' },

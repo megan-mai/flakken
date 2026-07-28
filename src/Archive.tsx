@@ -36,7 +36,7 @@ function Archive() {
 
   return (
     <main>
-      <ul className='grid grid-cols-1 gap-x-4 gap-y-0 w-full px-6 lg:grid-cols-2 md:w-[55vw] md:px-0 mx-auto my-12'>
+      <ul className='grid grid-cols-1 gap-x-4 gap-y-0 w-full px-5 lg:grid-cols-3 md:w-[55vw] md:px-0 mx-auto my-12'>
         {flags.map((flag) => (
           <li key={flag._id}>
             <Link to={`/archive/${flag.slug.current}`}>

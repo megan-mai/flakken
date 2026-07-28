@@ -50,7 +50,7 @@ function FlagDetail() {
   if (!flag) return <main>Loading...</main>
 
   return (
-    <main className="px-6 md:px-0">
+    <main className="px-5 md:px-0">
       {flag.image && (
         <div className="flex justify-center mt-12">
           <img src={urlFor(flag.image).width(800).url()} alt={flag.title} className="w-full max-w-2xl" />
@@ -69,7 +69,7 @@ function FlagDetail() {
         </div>
       )}
       <div
-        className="fixed bottom-6 inset-x-0 mx-6 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
+        className="fixed bottom-5 inset-x-0 mx-5 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
         onClick={() => setDescriptionExpanded((expanded) => !expanded)}
       >
         <div className="relative pr-32">
@@ -79,7 +79,7 @@ function FlagDetail() {
             }`}
           >
             <a
-              href={`mailto:contact@marketgallery.nyc?subject=${encodeURIComponent(`Inquiry - ${flag.artistName} Flag`)}`}
+              href={`mailto: Contact@sapmagazine.com?subject=${encodeURIComponent(`Inquiry - ${flag.artistName} Flag`)}`}
               onClick={(e) => e.stopPropagation()}
               className="bg-black hover:cursor-pointer hover:bg-zinc-500 text-white px-3 py-1 text-xs"
             >
