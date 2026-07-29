@@ -16,8 +16,7 @@ export default defineType({
       of: [{ type: 'image', options: { hotspot: true } }],
     }),
     defineField({ name: 'description', title: 'Description', type: 'array', of: [{ type: 'block' }] }),
-    defineField({ name: 'flownFrom', title: 'Flown From', type: 'string', description: 'e.g. "January 2025"' }),
-    defineField({ name: 'flownTo', title: 'Flown To', type: 'string', description: 'e.g. "February 2025"' }),
+    defineField({ name: 'flownMonth', title: 'Flown Month', type: 'string', description: 'e.g. "January 2025"' }),
 
     // artist info, inline
     defineField({ name: 'artistName', title: 'Artist Name', type: 'string' }),

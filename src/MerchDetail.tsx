@@ -11,6 +11,7 @@ type MerchItem = {
   name: string
   price: number
   images: any[]
+  gallery?: any[]
   description: any
   inStock: boolean
   externalCheckoutUrl?: string
@@ -30,6 +31,7 @@ function MerchDetail() {
           name,
           price,
           images,
+          gallery,
           description,
           inStock,
           externalCheckoutUrl,
@@ -43,10 +45,22 @@ function MerchDetail() {
   if (!item) return <main>Loading...</main>
 
   return (
-    <main className="px-5 md:px-0">
+    <main className="px-5 md:px-0 mb-24">
       {item.images?.[0] && (
         <div className="flex justify-center mt-12">
           <img src={urlFor(item.images[0]).width(800).url()} alt={item.name} className="w-full max-w-2xl" />
+        </div>
+      )}
+      {item.gallery && item.gallery.length > 0 && (
+        <div className="flex flex-wrap justify-center gap-4 mt-8 max-w-4xl mx-auto">
+          {item.gallery.map((image, i) => (
+            <img
+              key={i}
+              src={urlFor(image).width(600).url()}
+              alt={`${item.name} close-up ${i + 1}`}
+              className="w-full max-w-xs"
+            />
+          ))}
         </div>
       )}
       <div
@@ -55,9 +69,7 @@ function MerchDetail() {
       >
         <div className="relative pr-32">
           <div
-            className={`absolute right-0 mr-2 flex items-center gap-2 transition-all duration-300 ease-in-out ${
-              descriptionExpanded ? 'top-0' : 'top-1/2 -translate-y-1/2'
-            }`}
+            className="absolute right-0 mr-2 top-1/4 flex items-center gap-2 transition-all duration-300 ease-in-out"
           >
             {item.shopifyProductId ? (
               <div onClick={(e) => e.stopPropagation()}>
@@ -76,12 +88,12 @@ function MerchDetail() {
                 </a>
               )
             )}
-            <span className="text-zinc-500 text-xs mr-2 inline-block w-12 text-right">
+            <span className="text-zinc-500 text-xs mr-2 inline-block w-12 text-right -mt-1">
               {descriptionExpanded ? 'Info -' : 'Info +'}
             </span>
           </div>
 
-          <p><span className="font-bold">{item.name}</span>, ${item.price}</p>
+          <p className="flex flex-col"><span className="font-bold">{item.name}</span>${item.price}</p>
           {!item.inStock && <p className="text-zinc-500">Sold out</p>}
         </div>
         <div

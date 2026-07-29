@@ -11,8 +11,7 @@ type ArchivedFlag = {
   slug: { current: string }
   artistName: string
   image: any
-  flownFrom: string
-  flownTo: string
+  flownMonth: string
 }
 
 function Archive() {
@@ -27,8 +26,7 @@ function Archive() {
           slug,
           artistName,
           image,
-          flownFrom,
-          flownTo
+          flownMonth
         }`
       )
       .then(setFlags)
@@ -47,7 +45,7 @@ function Archive() {
                   className="w-full aspect-3/2 object-cover"
                 />
               )}
-              <p className="text-xs leading-tight mt-1">{flag.flownFrom} – {flag.flownTo}</p>
+              <p className="text-xs leading-tight mt-1">{flag.flownMonth}</p>
             </Link>
           </li>
         ))}

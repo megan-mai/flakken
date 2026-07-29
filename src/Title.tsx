@@ -13,11 +13,11 @@ function Title({
 }) {
   return (
     <div
-      className={`fixed bottom-4 left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 w-fit md:m-auto z-20 text-center ${textColor}`}
+      className={`fixed bottom-4 left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 w-max md:m-auto z-20 text-center ${textColor}`}
     >
-      <img src={flakkenTitle} className="w-36 pt-6 md:w-150 md:mt-8 mx-auto"></img>
-      {subtitle && <div className="text-xs mt-2 md:text-sm md:mt-4">{subtitle}</div>}
-      {nowFlying && <div className="text-xs md:text-sm">{nowFlying}</div>}
+      <img src={flakkenTitle} className="w-[70vw] min-w-44 max-w-150 pt-6 md:mt-8 mx-auto"></img>
+      {subtitle && <div className="text-sm mt-2 md:mt-4">{subtitle}</div>}
+      {nowFlying && <div className="text-sm">{nowFlying}</div>}
     </div>
   )
 }

@@ -10,6 +10,12 @@ export default defineType({
     defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'name' } }),
     defineField({ name: 'price', title: 'Price', type: 'number' }),
     defineField({ name: 'images', title: 'Images', type: 'array', of: [{ type: 'image' }] }),
+    defineField({
+      name: 'gallery',
+      title: 'Additional Photos',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+    }),
     defineField({ name: 'description', title: 'Description', type: 'array', of: [{ type: 'block' }] }),
     defineField({ name: 'relatedFlag', title: 'Related Flag', type: 'reference', to: [{ type: 'flag' }] }),
     defineField({ name: 'inStock', title: 'In Stock', type: 'boolean', initialValue: true }),

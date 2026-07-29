@@ -35,7 +35,7 @@ function App() {
   const subtitle =
     pathname === '/' ? (
       <>
-        Curated and presented by{' '}
+        Curated and Presented by{' '}
         <a
           href="https://sapmagazine.com/"
           target="_blank"
@@ -61,7 +61,7 @@ function App() {
       <Home visible={pathname === '/'} />
       <div className={isStaticHeader ? 'relative' : ''}>
         <Nav textColor={textColor} responsive={isStaticHeader} />
-        <a href="https://www.marketgallery.nyc/">
+        <a href="https://www.marketgallery.nyc/" target="_blank">
         <img
           src={marketLogo}
           alt="Market Gallery"
@@ -86,7 +86,7 @@ function App() {
         </Routes>
       </div>
       <p className="md:hidden px-5 text-sm text-red-500 pb-4">
-        Curated and presented by{' '}
+        Curated and Presented by{' '}
         <a
           href="https://sapmagazine.com/"
           target="_blank"

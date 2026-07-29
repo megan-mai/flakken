@@ -36,7 +36,7 @@ const PRODUCT_OPTIONS = {
         'background-color': '#000000',
         ':focus': { 'background-color': '#3f3f3f' },
         'border-radius': '0px',
-        'font-size': '12px',
+        'font-size': '14px',
         'padding-left': '12px',
         'padding-right': '12px',
         'padding-top': '4px',
@@ -128,7 +128,7 @@ function ShopifyBuyButton({ productId }: { productId: string }) {
     }
   }, [productId])
 
-  return <div ref={nodeRef} className="w-[100px] h-[42px] overflow-hidden -mt-4" />
+  return <div ref={nodeRef} className="w-[100px] h-[48px] overflow-hidden -mt-[20px]" />
 }
 
 export default ShopifyBuyButton

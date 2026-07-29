@@ -11,8 +11,7 @@ type Flag = {
   image: any
   gallery?: any[]
   description: any
-  flownFrom: string
-  flownTo: string
+  flownMonth: string
   artistName: string
   artistBio: any
   artistPhoto: any
@@ -34,8 +33,7 @@ function FlagDetail() {
           image,
           gallery,
           description,
-          flownFrom,
-          flownTo,
+          flownMonth,
           artistName,
           artistBio,
           artistPhoto,
@@ -50,7 +48,7 @@ function FlagDetail() {
   if (!flag) return <main>Loading...</main>
 
   return (
-    <main className="px-5 md:px-0">
+    <main className="px-5 md:px-0 mb-24">
       {flag.image && (
         <div className="flex justify-center mt-12">
           <img src={urlFor(flag.image).width(800).url()} alt={flag.title} className="w-full max-w-2xl" />
@@ -91,7 +89,7 @@ function FlagDetail() {
           </div>
 
           <p><span className="font-bold">{flag.artistName}</span> (b.1999)</p>
-          <div><span className="font-bold">{flag.title}</span>, ({flag.flownFrom} – {flag.flownTo})</div>
+          <div><span className="font-bold">{flag.title}</span>, ({flag.flownMonth})</div>
         </div>
         <div
           className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
