@@ -39,7 +39,7 @@ function Merch() {
 
   return (
     <main>
-      <ul className="grid grid-cols-2 gap-4 w-full px-5 md:grid-cols-2 md:w-[50vw] md:px-0 mx-auto my-12 ">
+      <ul className="grid grid-cols-2 gap-x-4 w-full px-5 md:grid-cols-2 md:w-[50vw] md:px-0 mx-auto mt-6 mb-10 ">
         {items.map((item) => (
           <li key={item._id} className="flex flex-col items-center">
             <Link to={item.slug?.current ? `/merch/${item.slug.current}` : '#'} className="block w-full">

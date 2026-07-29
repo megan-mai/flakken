@@ -18,7 +18,7 @@ function Nav({ textColor = 'text-red-900', responsive = false }: { textColor?: s
       <NavLink to="/merch" className={activeClass}>Shop</NavLink>
       <NavLink to="/info" className={activeClass}>Info</NavLink>
       <Link to='https://laylo.com/sapmagazine' target="_blank">Mailing List</Link>
-      <div className="w-52 mt-4 text-pretty">
+      <div className="md:w-[16vw] w-[30vw] mt-4 text-pretty">
         To book an appointment reach out to
         <a href='mailto:contact@marketgallery.nyc'> contact@marketgallery.nyc </a>
         or DM us <a href="https://instagram.com/flakken.nyc" target="_blank" rel="noopener noreferrer">@flakken.nyc</a>
