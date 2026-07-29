@@ -5,8 +5,8 @@ function Info() {
   return (
     <main className="flex h-full overflow-hidden items-center py-4 px-5 md:px-0 justify-center">
       <div className="text-black text-sm w-full md:w-[45vw]">
-        <img src={flakkenLogo} alt="Flakken" className="w-[9vw] min-w-8 max-w-16 h-auto mx-auto mb-8" />
-        <div className="flex flex-col gap-y-2">
+        <img src={flakkenLogo} alt="Flakken" className="w-[9vw] min-w-8 max-w-16 h-auto mx-auto mb-6" />
+        <div className="flex flex-col gap-y-2 ">
           <p>
             Flakken is a Monthly Rotating Flag Art Show Curated and Presented by SAP Magazine and hosted at Market Gallery.
             </p>
