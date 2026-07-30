@@ -6,6 +6,15 @@
   --color-red-900: #b90e0d;
 }
 
+/* Only apply nav link hover on devices with real hover (mouse) — on touch
+   devices, a plain :hover rule gets "stuck" on the tapped link until the
+   user taps elsewhere, masking the correct active-page color. */
+@media (hover: hover) {
+  .nav-links a:hover {
+    color: var(--color-red-500);
+  }
+}
+
 @font-face {
   font-family: 'TimesEighteen';
   src: url('./assets/TimesEighteen-Bold.otf') format('opentype');

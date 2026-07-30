@@ -11,7 +11,7 @@ function Nav({ textColor = 'text-red-900', responsive = false }: { textColor?: s
 
   return (
     <div
-      className={`${positionClasses} flex flex-col z-30 items-start text-sm [&_a:hover]:text-red-500 ${textColor}`}
+      className={`${positionClasses} flex flex-col z-30 items-start text-sm nav-links ${textColor}`}
     >
       <NavLink to="/" end className={homeActiveClass}>Home</NavLink>
       <NavLink to="/archive" className={activeClass}>Flown Flags</NavLink>
