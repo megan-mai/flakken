@@ -16,11 +16,11 @@ import MerchDetail from './MerchDetail'
 
 function App() {
   const { pathname } = useLocation()
-  const [flag, setFlag] = useState<{ artistName?: string } | null>(null)
+  const [flag, setFlag] = useState<{ title?: string } | null>(null)
 
   useEffect(() => {
     client
-      .fetch(`*[_type == "flag"] | order(_createdAt desc)[0]{ artistName }`)
+      .fetch(`*[_type == "flag"] | order(_createdAt desc)[0]{ title }`)
       .then(setFlag)
   }, [])
 
@@ -46,7 +46,7 @@ function App() {
         </a>
       </>
     ) : undefined
-  const nowFlying = pathname === '/' ? `Now flying: ${flag?.artistName ?? ''}` : undefined
+  const nowFlying = pathname === '/' ? `Now flying: ${flag?.title ?? ''}` : undefined
 
   if (isStudio) {
     return (

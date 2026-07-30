@@ -2,14 +2,13 @@
 import { useEffect, useState } from 'react'
 import flakkenFlag from './assets/flakken_logo.png'
 
-const SPLASH_DURATION_MS = 5000
+const SPLASH_DURATION_MS = 2000
 const SPLASH_FADE_MS = 400
 const DOT_INTERVAL_MS = 400
 
-// TEMP: disabled for testing the perimeter-crop fix — restore to true/true when done
 function Home({ visible }: { visible: boolean }) {
-  const [splashVisible, setSplashVisible] = useState(false)
-  const [splashMounted, setSplashMounted] = useState(false)
+  const [splashVisible, setSplashVisible] = useState(true)
+  const [splashMounted, setSplashMounted] = useState(true)
   const [dotCount, setDotCount] = useState(0)
 
   useEffect(() => {
