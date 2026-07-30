@@ -44,8 +44,11 @@ function Home({ visible }: { visible: boolean }) {
         <div className="absolute inset-0 z-1 bg-transparent" />
       </div>
 
-      {/*Dims the livestream so the nav/title/logo (z-20) stay legible on top of it*/}
-      <div className="fixed inset-0 z-10 bg-black/20 pointer-events-none" />
+      {/*Vignette dims the livestream toward the edges so the nav/title/logo (z-20) stay legible on top of it*/}
+      <div
+        className="fixed inset-0 z-10 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.45) 100%)' }}
+      />
 
       {/*Splash overlay hides the stream's flash of unwanted controls while it loads. Mounted once for the app's lifetime so switching pages and back doesn't retrigger it.*/}
       {splashMounted && (
