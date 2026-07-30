@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@theme {
+  --color-red-500: #b90e0d;
+  --color-red-600: #b90e0d;
+  --color-red-900: #b90e0d;
+}
+
 @font-face {
   font-family: 'TimesEighteen';
   src: url('./assets/TimesEighteen-Bold.otf') format('opentype');

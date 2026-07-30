@@ -27,7 +27,7 @@ function Info() {
           </div>
           <div className="w-[50%]">
             <p>CREDITS</p>
-            <p>Tech Support by Mattias Lambert</p>
+            <p className="text-nowrap">Tech Support by Mattias Lambert and Megan Mai</p>
             <p>Logo and lettering by Sammie Puralak</p>
           </div>
         </div>
