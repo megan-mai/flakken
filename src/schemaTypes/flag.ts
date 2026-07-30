@@ -8,22 +8,11 @@ export default defineType({
   fields: [
     defineField({ name: 'title', title: 'Flag Title', type: 'string' }),
     defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title' } }),
-    defineField({ name: 'image', title: 'Flag Image', type: 'image', options: { hotspot: true } }),
-    defineField({
-      name: 'gallery',
-      title: 'Gallery / Close-ups',
-      type: 'array',
-      of: [{ type: 'image', options: { hotspot: true } }],
-    }),
+    defineField({ name: 'image', title: 'Primary Image', type: 'image', options: { hotspot: true } }),
+    defineField({ name: 'image2', title: 'Secondary Image', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'description', title: 'Description', type: 'array', of: [{ type: 'block' }] }),
     defineField({ name: 'flownMonth', title: 'Flown Month', type: 'string', description: 'e.g. "January 2025"' }),
 
-    // artist info, inline
-    defineField({ name: 'artistName', title: 'Artist Name', type: 'string' }),
-    defineField({ name: 'artistBio', title: 'Artist Bio', type: 'array', of: [{ type: 'block' }] }),
-    defineField({ name: 'artistPhoto', title: 'Artist Photo', type: 'image' }),
-    defineField({ name: 'artistWebsite', title: 'Artist Website', type: 'url' }),
-    defineField({ name: 'artistInstagram', title: 'Artist Instagram', type: 'url' }),
   ],
   preview: {
     select: { title: 'title', artist: 'artistName', media: 'image' },

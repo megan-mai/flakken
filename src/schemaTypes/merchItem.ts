@@ -7,19 +7,6 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({ name: 'name', title: 'Name', type: 'string' }),
-    defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'name' } }),
-    defineField({ name: 'price', title: 'Price', type: 'number' }),
-    defineField({ name: 'images', title: 'Images', type: 'array', of: [{ type: 'image' }] }),
-    defineField({
-      name: 'gallery',
-      title: 'Additional Photos',
-      type: 'array',
-      of: [{ type: 'image', options: { hotspot: true } }],
-    }),
-    defineField({ name: 'description', title: 'Description', type: 'array', of: [{ type: 'block' }] }),
-    defineField({ name: 'relatedFlag', title: 'Related Flag', type: 'reference', to: [{ type: 'flag' }] }),
-    defineField({ name: 'inStock', title: 'In Stock', type: 'boolean', initialValue: true }),
-    defineField({ name: 'externalCheckoutUrl', title: 'Checkout URL', type: 'url' }),
     defineField({
       name: 'shopifyProductId',
       title: 'Shopify Product ID',
@@ -27,6 +14,12 @@ export default defineType({
       description:
         'Shopify Admin → Product → Copy the sequence of numbers at the end of the URL, e.g. 9535683559644 and paste it in this field',
     }),
+    defineField({ name: 'slug', title: 'Slug', type: 'slug', options: { source: 'name' } }),
+    defineField({ name: 'price', title: 'Price', type: 'number' }),
+    defineField({ name: 'images', title: 'Images', type: 'array', of: [{ type: 'image' }] }),
+    defineField({ name: 'image2', title: 'Secondary Image', type: 'image', options: { hotspot: true } }),
+    defineField({ name: 'description', title: 'Description', type: 'array', of: [{ type: 'block' }] }),
+    defineField({ name: 'inStock', title: 'In Stock', type: 'boolean', initialValue: true }),
   ],
   preview: {
     select: { title: 'name', price: 'price', media: 'images.0' },

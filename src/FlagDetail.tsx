@@ -9,20 +9,16 @@ type Flag = {
   _id: string
   title: string
   image: any
-  gallery?: any[]
+  image2?: any
   description: any
   flownMonth: string
-  artistName: string
-  artistBio: any
-  artistPhoto: any
-  artistWebsite?: string
-  artistInstagram?: string
 }
 
 function FlagDetail() {
   const { slug } = useParams()
   const [flag, setFlag] = useState<Flag | null>(null)
   const [descriptionExpanded, setDescriptionExpanded] = useState(false)
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null)
 
   useEffect(() => {
     client
@@ -31,14 +27,9 @@ function FlagDetail() {
           _id,
           title,
           image,
-          gallery,
+          image2,
           description,
-          flownMonth,
-          artistName,
-          artistBio,
-          artistPhoto,
-          artistWebsite,
-          artistInstagram
+          flownMonth
         }`,
         { slug }
       )
@@ -48,26 +39,37 @@ function FlagDetail() {
   if (!flag) return <main>Loading...</main>
 
   return (
-    <main className="px-5 md:px-0 mb-24">
+    <main className="px-4 md:px-0 mb-24">
       {flag.image && (
-        <div className="flex justify-center mt-12">
-          <img src={urlFor(flag.image).width(800).url()} alt={flag.title} className="w-full max-w-2xl" />
+        <div className="flex justify-center mt-6">
+          <img
+            src={urlFor(flag.image).width(800).url()}
+            alt={flag.title}
+            className="w-full max-w-2xl cursor-zoom-in"
+            onClick={() => setZoomedImage(urlFor(flag.image).width(1600).url())}
+          />
         </div>
       )}
-      {flag.gallery && flag.gallery.length > 0 && (
-        <div className="flex flex-wrap justify-center gap-4 mt-8 max-w-4xl mx-auto">
-          {flag.gallery.map((image, i) => (
-            <img
-              key={i}
-              src={urlFor(image).width(600).url()}
-              alt={`${flag.title} close-up ${i + 1}`}
-              className="w-full max-w-xs"
-            />
-          ))}
+      {flag.image2 && (
+        <div className="flex justify-center mt-8">
+          <img
+            src={urlFor(flag.image2).width(800).url()}
+            alt={flag.title}
+            className="w-full max-w-2xl cursor-zoom-in"
+            onClick={() => setZoomedImage(urlFor(flag.image2).width(1600).url())}
+          />
+        </div>
+      )}
+      {zoomedImage && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 cursor-zoom-out"
+          onClick={() => setZoomedImage(null)}
+        >
+          <img src={zoomedImage} alt={flag.title} className="max-w-full max-h-full object-contain" />
         </div>
       )}
       <div
-        className="fixed bottom-5 inset-x-0 mx-5 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
+        className="fixed bottom-4 inset-x-0 mx-4 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
         onClick={() => setDescriptionExpanded((expanded) => !expanded)}
       >
         <div className="relative pr-32">
@@ -77,7 +79,7 @@ function FlagDetail() {
             }`}
           >
             <a
-              href={`mailto: Contact@sapmagazine.com?subject=${encodeURIComponent(`Inquiry - ${flag.artistName} Flag`)}`}
+              href={`mailto: Contact@sapmagazine.com?subject=${encodeURIComponent(`Inquiry - ${flag.title} Flag`)}`}
               onClick={(e) => e.stopPropagation()}
               className="bg-black hover:cursor-pointer hover:bg-zinc-500 text-white px-3 py-1 text-xs"
             >
@@ -88,7 +90,6 @@ function FlagDetail() {
             </span>
           </div>
 
-          <p><span className="font-bold">{flag.artistName}</span> (b.1999)</p>
           <div><span className="font-bold">{flag.title}</span>, ({flag.flownMonth})</div>
         </div>
         <div
@@ -106,9 +107,7 @@ function FlagDetail() {
             </div>
           </div>
         </div>
-        {flag.artistPhoto && <img src={urlFor(flag.artistPhoto).width(200).url()} alt={flag.artistName} />}
-        {flag.artistWebsite && <a href={flag.artistWebsite} target="_blank" rel="noopener noreferrer">Website</a>}
-        {flag.artistInstagram && <a href={flag.artistInstagram} target="_blank" rel="noopener noreferrer">Instagram</a>}
+
       </div>
     </main>
   )

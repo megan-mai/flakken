@@ -3,7 +3,7 @@ import flakkenLogo from './assets/flakken_logo.png'
 
 function Info() {
   return (
-    <main className="flex h-full overflow-hidden items-center py-4 px-5 md:px-0 justify-center">
+    <main className="flex h-full overflow-hidden items-center py-4 px-4 md:px-0 justify-center">
       <div className="text-black text-sm w-full md:w-[45vw]">
         <img src={flakkenLogo} alt="Flakken" className="w-[9vw] min-w-8 max-w-16 h-auto mx-auto mb-6" />
         <div className="flex flex-col gap-y-2 ">
@@ -16,18 +16,18 @@ function Info() {
           <p>
             At the beginning of each month, a “Flakken Change Ceremony” will mark the transition. People will gather to witness the raising of the new flag and the lowering of the previous. A musical guest will perform a rendition of “To the Color” during the retreat, a traditional lowering of the flag that signals respect for the chosen flag’s meaning.
             </p>
-          <p className="italic">
+          <p className="italic text-xs py-4">
             The word flag first appeared in English in the late 15th century and, although its exact origin is uncertain, it may derive from Middle English flakken (“to flap, flutter”), ultimately from Old Norse flaka (“to flicker, flutter, hang loose”).
             </p>
         </div>
         <div className="flex md:justify-between mt-3">
           <div className="w-[50%]">
             <p>INQUIRIES</p>
-            <p>Max@Sapmagazine.com</p>
+            <p>max@sapmagazine.com</p>
           </div>
           <div className="w-[50%]">
             <p>CREDITS</p>
-            <p>Website development by Mattias Lambert</p>
+            <p>Tech Support by Mattias Lambert</p>
             <p>Logo and lettering by Sammie Puralak</p>
           </div>
         </div>

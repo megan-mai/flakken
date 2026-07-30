@@ -11,7 +11,7 @@ type MerchItem = {
   name: string
   price: number
   images: any[]
-  gallery?: any[]
+  image2?: any
   description: any
   inStock: boolean
   externalCheckoutUrl?: string
@@ -31,7 +31,7 @@ function MerchDetail() {
           name,
           price,
           images,
-          gallery,
+          image2,
           description,
           inStock,
           externalCheckoutUrl,
@@ -45,26 +45,20 @@ function MerchDetail() {
   if (!item) return <main>Loading...</main>
 
   return (
-    <main className="px-5 md:px-0 mb-24">
+    <main className="px-4 md:px-0 mb-24">
       {item.images?.[0] && (
-        <div className="flex justify-center mt-12">
+        <div className="flex justify-center mt-6">
           <img src={urlFor(item.images[0]).width(800).url()} alt={item.name} className="w-full max-w-2xl" />
         </div>
       )}
-      {item.gallery && item.gallery.length > 0 && (
-        <div className="flex flex-wrap justify-center gap-4 mt-8 max-w-4xl mx-auto">
-          {item.gallery.map((image, i) => (
-            <img
-              key={i}
-              src={urlFor(image).width(600).url()}
-              alt={`${item.name} close-up ${i + 1}`}
-              className="w-full max-w-xs"
-            />
-          ))}
+
+      {item.image2 && (
+        <div className="flex justify-center mt-8">
+          <img src={urlFor(item.image2).width(800).url()} alt={item.name} className="w-full max-w-2xl" />
         </div>
       )}
       <div
-        className="fixed bottom-5 inset-x-0 mx-5 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
+        className="fixed bottom-4 inset-x-0 mx-4 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
         onClick={() => setDescriptionExpanded((expanded) => !expanded)}
       >
         <div className="relative pr-32">

@@ -35,7 +35,7 @@ function Home({ visible }: { visible: boolean }) {
     <div className={visible ? 'visible' : 'invisible'}>
       <div className="fixed inset-0 w-screen h-screen overflow-hidden z-0">
         <iframe
-                src="https://www.youtube.com/embed/wmq9AI9f5aA?si=qDf-npd7zUzS8LUK?&autoplay=1&mute=1&controls=0&disablekb=1&iv_load_policy=3&rel=0&modestbranding=1&fs=0&rel=0&showinfo=0"
+                src="https://www.youtube.com/embed/27FewYH2mQk?si=I0ArYRJzPYvo3vZi?&autoplay=1&mute=1&controls=0&disablekb=1&iv_load_policy=3&rel=0&modestbranding=1&fs=0&rel=0&showinfo=0"
                 title="Flagpole Livestream"
                 className="absolute top-1/2 left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-1/2 -translate-y-1/2 scale-[1.15] pointer-events-none"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -44,6 +44,9 @@ function Home({ visible }: { visible: boolean }) {
         {/*Blocks pointer events from reaching the iframe so hovering never triggers YouTube's overlay controls*/}
         <div className="absolute inset-0 z-1 bg-transparent" />
       </div>
+
+      {/*Dims the livestream so the nav/title/logo (z-20) stay legible on top of it*/}
+      <div className="fixed inset-0 z-10 bg-black/20 pointer-events-none" />
 
       {/*Splash overlay hides the stream's flash of unwanted controls while it loads. Mounted once for the app's lifetime so switching pages and back doesn't retrigger it.*/}
       {splashMounted && (

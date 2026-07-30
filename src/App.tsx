@@ -67,8 +67,8 @@ function App() {
           alt="Market Gallery"
           className={
             isStaticHeader
-              ? 'absolute md:fixed top-5 right-5 md:top-8 md:right-8 z-20 h-12 w-auto'
-              : 'fixed top-5 right-5 md:top-8 md:right-8 z-20 h-12 w-auto'
+              ? 'absolute md:fixed top-4 right-4 md:top-8 md:right-8 z-20 h-12 w-auto'
+              : 'fixed top-4 right-4 md:top-8 md:right-8 z-20 h-12 w-auto'
           }
           />
         </a>
@@ -85,7 +85,7 @@ function App() {
           <Route path="/info" element={<Info />} />
         </Routes>
       </div>
-      <p className="md:hidden px-5 text-sm text-red-500 pb-4">
+      <p className="md:hidden px-4 text-sm text-red-500 pb-4">
         Curated and Presented by{' '}
         <a
           href="https://sapmagazine.com/"

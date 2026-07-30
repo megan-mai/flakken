@@ -39,7 +39,7 @@ function Merch() {
 
   return (
     <main>
-      <ul className="grid grid-cols-2 gap-x-4 w-full px-5 md:grid-cols-2 md:w-[50vw] md:px-0 mx-auto mt-6 mb-10 ">
+      <ul className="grid sm:grid-cols-2 md:gap-x-12  md:gap-y-8 sm:gap-4 w-full px-4 md:grid-cols-3 md:w-[50vw] md:px-0 mx-auto mt-6 mb-10 ">
         {items.map((item) => (
           <li key={item._id} className="flex flex-col items-center">
             <Link to={item.slug?.current ? `/merch/${item.slug.current}` : '#'} className="block w-full">
@@ -47,7 +47,7 @@ function Merch() {
                 <img
                   src={urlFor(item.images[0]).width(400).url()}
                   alt={item.name}
-                  className="w-full aspect-square object-cover"
+                  className="w-full aspect-4/6 object-cover"
                 />
               )}
               <p className="text-xs leading-tight mt-1">{item.name} – ${item.price}</p>
