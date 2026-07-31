@@ -16,8 +16,8 @@ function Info() {
           <p>
             At the beginning of each month, a “Flakken Change Ceremony” will mark the transition. People will gather to witness the raising of the new flag and the lowering of the previous. A musical guest will perform a rendition of “To the Color” during the retreat, a traditional lowering of the flag that signals respect for the chosen flag’s meaning.
             </p>
-          <p className="italic text-xs py-4">
-            The word flag first appeared in English in the late 15th century and, although its exact origin is uncertain, it may derive from Middle English flakken (“to flap, flutter”), ultimately from Old Norse flaka (“to flicker, flutter, hang loose”).
+          <p className="italic text-[12px] py-4">
+            The word "flag" first appeared in English in the late 15th century and, although its exact origin is uncertain, it may derive from Middle English flakken (“to flap, flutter”), ultimately from Old Norse flaka (“to flicker, flutter, hang loose”).
             </p>
         </div>
         <div className="flex md:justify-between mt-3">
