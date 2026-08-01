@@ -6,14 +6,38 @@ const SPLASH_DURATION_MS = 2000
 const SPLASH_FADE_MS = 400
 const DOT_INTERVAL_MS = 400
 
+const visibilityListener = () => {
+  if (document.visibilityState === 'hidden') {
+    return;
+  }
+
+  const stream = document.getElementById("stream");
+  if (stream == null) {
+    console.error("Couldn't find stream elemenet");
+    return;
+  }
+
+  (stream as HTMLIFrameElement).contentWindow?.postMessage(JSON.stringify({
+    event: 'command',
+    func: 'playVideo',
+    args: []
+  }), 'https://www.youtube.com');
+}
+
 function Home({ visible }: { visible: boolean }) {
   const [splashVisible, setSplashVisible] = useState(true)
   const [splashMounted, setSplashMounted] = useState(true)
   const [dotCount, setDotCount] = useState(0)
 
+  // onMounted and onUnmounted
   useEffect(() => {
     const hideTimer = setTimeout(() => setSplashVisible(false), SPLASH_DURATION_MS)
-    return () => clearTimeout(hideTimer)
+    document.addEventListener('visibilitychange', visibilityListener);
+
+    return () => {
+      clearTimeout(hideTimer);
+      document.removeEventListener('visibilitychange', visibilityListener);
+    }
   }, [])
 
   useEffect(() => {
@@ -39,6 +63,7 @@ function Home({ visible }: { visible: boolean }) {
                 className="absolute top-1/2 left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-[58%] -translate-y-1/2 md:-translate-x-1/2 scale-[1.15] pointer-events-none"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                id="stream"
         />
         {/*Blocks pointer events from reaching the iframe so hovering never triggers YouTube's overlay controls*/}
         <div className="absolute inset-0 z-1 bg-transparent" />
