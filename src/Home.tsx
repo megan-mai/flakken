@@ -1,29 +1,43 @@
 // web/src/Home.tsx
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import flakkenFlag from './assets/flakken_logo.png'
 
 const SPLASH_DURATION_MS = 2000
 const SPLASH_FADE_MS = 400
 const DOT_INTERVAL_MS = 400
-const HEALTH_CHECK_INTERVAL_MS = 5000
-const LIVESTREAM_IFRAME_ID = 'flakken-livestream-player'
 
-declare global {
-  interface Window {
-    YT: any
-    onYouTubeIframeAPIReady?: () => void
+const visibilityListener = () => {
+  if (document.visibilityState === 'hidden') {
+    return;
   }
+
+  const stream = document.getElementById("stream");
+  if (stream == null) {
+    console.error("Couldn't find stream elemenet");
+    return;
+  }
+
+  (stream as HTMLIFrameElement).contentWindow?.postMessage(JSON.stringify({
+    event: 'command',
+    func: 'playVideo',
+    args: []
+  }), 'https://www.youtube.com');
 }
 
 function Home({ visible }: { visible: boolean }) {
   const [splashVisible, setSplashVisible] = useState(true)
   const [splashMounted, setSplashMounted] = useState(true)
   const [dotCount, setDotCount] = useState(0)
-  const playerRef = useRef<any>(null)
 
+  // onMounted and onUnmounted
   useEffect(() => {
     const hideTimer = setTimeout(() => setSplashVisible(false), SPLASH_DURATION_MS)
-    return () => clearTimeout(hideTimer)
+    document.addEventListener('visibilitychange', visibilityListener);
+
+    return () => {
+      clearTimeout(hideTimer);
+      document.removeEventListener('visibilitychange', visibilityListener);
+    }
   }, [])
 
   useEffect(() => {
@@ -40,77 +54,16 @@ function Home({ visible }: { visible: boolean }) {
     return () => clearInterval(dotTimer)
   }, [splashMounted])
 
-  // YouTube's embedded autoplay is a heuristic that silently fails on some
-  // devices/networks, and the overlay below blocks clicks (so a user can
-  // never manually hit play). Drive playback via the IFrame API instead so
-  // we can force-resume it whenever it pauses, the tab regains focus, or a
-  // periodic health check finds it stalled.
-  useEffect(() => {
-    function forcePlay(player: any) {
-      player.mute()
-      player.playVideo()
-    }
-
-    function createPlayer() {
-      playerRef.current = new window.YT.Player(LIVESTREAM_IFRAME_ID, {
-        events: {
-          onReady: (event: any) => forcePlay(event.target),
-          onStateChange: (event: any) => {
-            if (event.data === window.YT.PlayerState.PAUSED || event.data === window.YT.PlayerState.CUED) {
-              forcePlay(event.target)
-            }
-          },
-        },
-      })
-    }
-
-    if (window.YT && window.YT.Player) {
-      createPlayer()
-    } else {
-      const previousCallback = window.onYouTubeIframeAPIReady
-      window.onYouTubeIframeAPIReady = () => {
-        previousCallback?.()
-        createPlayer()
-      }
-      if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
-        const script = document.createElement('script')
-        script.src = 'https://www.youtube.com/iframe_api'
-        document.body.appendChild(script)
-      }
-    }
-
-    function handleVisibilityChange() {
-      if (document.visibilityState === 'visible') {
-        playerRef.current?.playVideo?.()
-      }
-    }
-    document.addEventListener('visibilitychange', handleVisibilityChange)
-
-    const healthCheck = setInterval(() => {
-      const player = playerRef.current
-      if (!player?.getPlayerState) return
-      const state = player.getPlayerState()
-      if (state !== window.YT.PlayerState.PLAYING && state !== window.YT.PlayerState.BUFFERING) {
-        forcePlay(player)
-      }
-    }, HEALTH_CHECK_INTERVAL_MS)
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange)
-      clearInterval(healthCheck)
-    }
-  }, [])
-
   return (
     <div className={visible ? 'visible' : 'invisible'}>
       <div className="fixed inset-0 w-screen h-screen overflow-hidden z-0">
         <iframe
-                id={LIVESTREAM_IFRAME_ID}
-                src={`https://www.youtube.com/embed/live_stream?channel=UCVXUY_TWKD_kPH5zm9d7CTg&autoplay=1&mute=1&playsinline=1&controls=0&disablekb=1&iv_load_policy=3&rel=0&modestbranding=1&fs=0&enablejsapi=1&origin=${window.location.origin}`}
+                src="https://www.youtube.com/embed/live_stream?channel=UCVXUY_TWKD_kPH5zm9d7CTg&autoplay=1&mute=1&controls=0&disablekb=1&iv_load_policy=3&rel=0&modestbranding=1&fs=0&rel=0&showinfo=0&enablejsapi=1"
                 title="Flagpole Livestream"
                 className="absolute top-1/2 left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-[58%] -translate-y-1/2 md:-translate-x-1/2 scale-[1.15] pointer-events-none"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                id="stream"
         />
         {/*Blocks pointer events from reaching the iframe so hovering never triggers YouTube's overlay controls*/}
         <div className="absolute inset-0 z-1 bg-transparent" />
