@@ -47,14 +47,22 @@ function MerchDetail() {
   return (
     <main className="px-4 md:px-0 mb-24">
       {item.images?.[0] && (
-        <div className="flex justify-center mt-6">
-          <img src={urlFor(item.images[0]).width(800).url()} alt={item.name} className="w-full max-w-2xl" />
+        <div className="flex justify-center mt-6 h-[32vw]">
+          <img
+            src={urlFor(item.images[0]).width(800).url()}
+            alt={item.name}
+            className="h-full w-auto max-w-2xl object-contain"
+          />
         </div>
       )}
 
       {item.image2 && (
-        <div className="flex justify-center mt-8">
-          <img src={urlFor(item.image2).width(800).url()} alt={item.name} className="w-full max-w-2xl" />
+        <div className="flex justify-center mt-8 h-[30vw]">
+          <img
+            src={urlFor(item.image2).width(800).url()}
+            alt={item.name}
+            className="h-full w-auto max-w-2xl object-contain"
+          />
         </div>
       )}
       <div
@@ -63,7 +71,7 @@ function MerchDetail() {
       >
         <div className="relative pr-32">
           <div
-            className="absolute right-0 mr-2 top-1/4 flex items-center gap-2 transition-all duration-300 ease-in-out"
+            className="absolute right-0 mr-2 top-1/4 flex items-center gap-0.5 md:gap-2 transition-all duration-300 ease-in-out"
           >
             {item.shopifyProductId ? (
               <div onClick={(e) => e.stopPropagation()}>
