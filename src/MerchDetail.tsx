@@ -47,7 +47,7 @@ function MerchDetail() {
   return (
     <main className="px-4 md:px-0 mb-24">
       {item.images?.[0] && (
-        <div className="flex justify-center mt-6 h-[32vw]">
+        <div className="flex justify-center mt-6 h-[38dvh] md:h-[32vw]">
           <img
             src={urlFor(item.images[0]).width(800).url()}
             alt={item.name}
@@ -57,7 +57,7 @@ function MerchDetail() {
       )}
 
       {item.image2 && (
-        <div className="flex justify-center mt-8 h-[30vw]">
+        <div className="flex justify-center mt-8 h-[36dvh] md:h-[30vw]">
           <img
             src={urlFor(item.image2).width(800).url()}
             alt={item.name}

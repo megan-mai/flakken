@@ -16,8 +16,8 @@ function Title({
       className={`fixed bottom-4 left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 w-max md:m-auto z-20 text-center ${textColor}`}
     >
       <img src={flakkenTitle} className="w-[80vw] min-w-44 max-w-[650px] pt-6 md:mt-6 mx-auto"></img>
-      {subtitle && <div className="text-sm mt-2 md:mt-4">{subtitle}</div>}
-      {nowFlying && <div className="text-sm">{nowFlying}</div>}
+      {subtitle && <div className="text-sm mt-2 md:mt-4 text-red-500">{subtitle}</div>}
+      {nowFlying && <div className="text-sm text-red-500">{nowFlying}</div>}
     </div>
   )
 }
