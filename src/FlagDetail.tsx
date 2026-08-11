@@ -72,12 +72,9 @@ function FlagDetail() {
         className="fixed bottom-4 inset-x-0 mx-4 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
         onClick={() => setDescriptionExpanded((expanded) => !expanded)}
       >
-        <div className="relative pr-32">
-          <div
-            className={`absolute right-0 mr-2 flex items-center transition-all duration-300 ease-in-out ${
-              descriptionExpanded ? 'top-0 mt-2' : 'top-1/2 -translate-y-1/2'
-            }`}
-          >
+        <div className="flex items-center justify-between gap-2">
+          <div><span className="font-bold">{flag.title}</span>, ({flag.flownMonth})</div>
+          <div className="flex items-center transition-all duration-300 ease-in-out">
             <a
               href={`mailto: Contact@sapmagazine.com?subject=${encodeURIComponent(`Inquiry - ${flag.title} Flag`)}`}
               onClick={(e) => e.stopPropagation()}
@@ -89,8 +86,6 @@ function FlagDetail() {
               {descriptionExpanded ? 'Info -' : 'Info +'}
             </span>
           </div>
-
-          <div><span className="font-bold">{flag.title}</span>, ({flag.flownMonth})</div>
         </div>
         <div
           className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${

@@ -69,10 +69,12 @@ function MerchDetail() {
         className="fixed bottom-4 inset-x-0 mx-4 md:left-1/2 md:right-auto md:mx-0 md:-translate-x-1/2 md:w-full md:max-w-2xl text-black bg-white p-2 border border-zinc-400 text-sm hover:cursor-pointer"
         onClick={() => setDescriptionExpanded((expanded) => !expanded)}
       >
-        <div className="relative pr-32">
-          <div
-            className="absolute right-0 mr-2 top-1/4 flex items-center gap-0.5 md:gap-2 transition-all duration-300 ease-in-out"
-          >
+        <div className="flex items-center justify-between gap-2">
+          <div>
+            <p className="flex flex-col"><span className="font-bold">{item.name}</span>${item.price}</p>
+            {!item.inStock && <p className="text-zinc-500">Sold out</p>}
+          </div>
+          <div className="flex items-center gap-0.5 md:gap-2 transition-all duration-300 ease-in-out">
             {item.shopifyProductId ? (
               <div onClick={(e) => e.stopPropagation()}>
                 <ShopifyBuyButton productId={item.shopifyProductId} />
@@ -90,13 +92,10 @@ function MerchDetail() {
                 </a>
               )
             )}
-            <span className="text-zinc-500 text-xs mr-2 inline-block w-12 text-right -mt-1">
+            <span className="text-zinc-500 text-xs mr-2 inline-block w-12 text-right">
               {descriptionExpanded ? 'Info -' : 'Info +'}
             </span>
           </div>
-
-          <p className="flex flex-col"><span className="font-bold">{item.name}</span>${item.price}</p>
-          {!item.inStock && <p className="text-zinc-500">Sold out</p>}
         </div>
         <div
           className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
