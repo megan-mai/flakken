@@ -45,7 +45,7 @@ function Merch() {
             <Link to={item.slug?.current ? `/merch/${item.slug.current}` : '#'} className="block w-full">
               {item.images?.[0] && (
                 <img
-                  src={urlFor(item.images[0]).width(400).url()}
+                  src={urlFor(item.images[0]).width(800).auto('format').url()}
                   alt={item.name}
                   className="w-full aspect-4/5 object-cover"
                 />

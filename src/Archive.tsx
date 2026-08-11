@@ -40,7 +40,7 @@ function Archive() {
             <Link to={flag.slug?.current ? `/archive/${flag.slug.current}` : '#'}>
               {flag.image && (
                 <img
-                  src={urlFor(flag.image).width(400).url()}
+                  src={urlFor(flag.image).width(800).auto('format').url()}
                   alt={flag.title}
                   className="w-full aspect-3/2 object-cover"
                 />

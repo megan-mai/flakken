@@ -49,7 +49,7 @@ function MerchDetail() {
       {item.images?.[0] && (
         <div className="flex justify-center mt-6 h-[38dvh] md:h-[32vw]">
           <img
-            src={urlFor(item.images[0]).width(800).url()}
+            src={urlFor(item.images[0]).width(1400).auto('format').url()}
             alt={item.name}
             className="h-full w-auto max-w-2xl object-contain"
           />
@@ -59,7 +59,7 @@ function MerchDetail() {
       {item.image2 && (
         <div className="flex justify-center mt-8 h-[36dvh] md:h-[30vw]">
           <img
-            src={urlFor(item.image2).width(800).url()}
+            src={urlFor(item.image2).width(1400).auto('format').url()}
             alt={item.name}
             className="h-full w-auto max-w-2xl object-contain"
           />

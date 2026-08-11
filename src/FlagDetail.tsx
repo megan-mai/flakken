@@ -43,20 +43,20 @@ function FlagDetail() {
       {flag.image && (
         <div className="flex justify-center mt-6">
           <img
-            src={urlFor(flag.image).width(800).url()}
+            src={urlFor(flag.image).width(1400).auto('format').url()}
             alt={flag.title}
             className="w-full max-w-2xl cursor-zoom-in"
-            onClick={() => setZoomedImage(urlFor(flag.image).width(1600).url())}
+            onClick={() => setZoomedImage(urlFor(flag.image).width(2000).auto('format').url())}
           />
         </div>
       )}
       {flag.image2 && (
         <div className="flex justify-center mt-8">
           <img
-            src={urlFor(flag.image2).width(800).url()}
+            src={urlFor(flag.image2).width(1400).auto('format').url()}
             alt={flag.title}
             className="w-full max-w-2xl cursor-zoom-in"
-            onClick={() => setZoomedImage(urlFor(flag.image2).width(1600).url())}
+            onClick={() => setZoomedImage(urlFor(flag.image2).width(2000).auto('format').url())}
           />
         </div>
       )}
