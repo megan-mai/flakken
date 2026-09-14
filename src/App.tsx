@@ -16,12 +16,12 @@ import MerchDetail from './MerchDetail'
 
 function App() {
   const { pathname } = useLocation()
-  const [flag, setFlag] = useState<{ title?: string } | null>(null)
+  const [nowFlyingDoc, setNowFlyingDoc] = useState<{ nowFlying?: string } | null>(null)
 
   useEffect(() => {
     client
-      .fetch(`*[_type == "flag"] | order(_createdAt desc)[0]{ title }`)
-      .then(setFlag)
+      .fetch(`*[_type == "nowFlying"][0]{ nowFlying }`)
+      .then(setNowFlyingDoc)
   }, [])
 
   const isStudio = pathname.startsWith('/studio')
@@ -46,7 +46,7 @@ function App() {
         </a>
       </>
     ) : undefined
-  const nowFlying = pathname === '/' ? `Now flying: ${flag?.title ?? ''}` : undefined
+  const nowFlying = pathname === '/' ? nowFlyingDoc?.nowFlying : undefined
 
   if (isStudio) {
     return (
