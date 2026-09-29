@@ -1,6 +1,7 @@
 // web/src/Home.tsx
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import flakkenFlag from './assets/flakken_logo.png'
+import Hls from "hls.js";
 
 const SPLASH_DURATION_MS = 2000
 const SPLASH_FADE_MS = 400
@@ -24,10 +25,34 @@ const visibilityListener = () => {
   }), 'https://www.youtube.com');
 }
 
+const STREAM_URL = "http://100.89.160.58:8888/cam/index.m3u8";
+
 function Home({ visible }: { visible: boolean }) {
   const [splashVisible, setSplashVisible] = useState(true)
   const [splashMounted, setSplashMounted] = useState(true)
   const [dotCount, setDotCount] = useState(0)
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      let hls: Hls | undefined;
+
+      if (Hls.isSupported()) {
+        hls = new Hls();
+        hls.loadSource(STREAM_URL);
+        hls.attachMedia(video);
+      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+        // Safari has native HLS support, no hls.js needed
+        video.src = STREAM_URL;
+      }
+
+      return () => {
+        hls?.destroy();
+      };
+    }, []);
 
   // onMounted and onUnmounted
   useEffect(() => {
@@ -57,14 +82,13 @@ function Home({ visible }: { visible: boolean }) {
   return (
     <div className={visible ? 'visible' : 'invisible'}>
       <div className="fixed inset-0 w-screen h-screen overflow-hidden z-0">
-        <iframe
-                src="https://www.youtube.com/embed/live_stream?channel=UCVXUY_TWKD_kPH5zm9d7CTg&autoplay=1&mute=1&controls=0&disablekb=1&iv_load_policy=3&rel=0&modestbranding=1&fs=0&rel=0&showinfo=0&enablejsapi=1"
-                title="Flagpole Livestream"
-                // adjust here when camera moves
-                className="absolute top-1/2 sm:left-1/8 md:left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-[58%] -translate-y-1/2 md:-translate-x-1/2 scale-[1.15] pointer-events-none"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                id="stream"
+        <video
+                ref={videoRef}
+          controls
+          autoPlay
+          muted
+          playsInline
+          style={{ width: "100%" }}
         />
         {/*Blocks pointer events from reaching the iframe so hovering never triggers YouTube's overlay controls*/}
         <div className="absolute inset-0 z-1 bg-transparent" />
