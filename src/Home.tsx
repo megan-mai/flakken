@@ -25,7 +25,7 @@ const visibilityListener = () => {
   }), 'https://www.youtube.com');
 }
 
-const STREAM_URL = "http://100.89.160.58:8888/cam/index.m3u8";
+const STREAM_URL = "https://flakken.tailbff2d4.ts.net:8443/cam/index.m3u8";
 
 function Home({ visible }: { visible: boolean }) {
   const [splashVisible, setSplashVisible] = useState(true)
