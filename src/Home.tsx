@@ -34,19 +34,32 @@ function Home({ visible }: { visible: boolean }) {
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
-    useEffect(() => {
+  useEffect(() => {
       const video = videoRef.current;
       if (!video) return;
 
+      video.muted = true; // set as a real property, not just the attribute
+
       let hls: Hls | undefined;
+
+      const tryPlay = () => {
+        video.play().catch((err) => {
+          console.warn("Autoplay was blocked:", err);
+        });
+      };
 
       if (Hls.isSupported()) {
         hls = new Hls();
         hls.loadSource(STREAM_URL);
         hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, tryPlay);
+        hls.on(Hls.Events.ERROR, (_event, data) => {
+          console.error("HLS error:", data);
+        });
       } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        // Safari has native HLS support, no hls.js needed
+        // Safari native HLS
         video.src = STREAM_URL;
+        video.addEventListener("loadedmetadata", tryPlay);
       }
 
       return () => {
@@ -83,11 +96,12 @@ function Home({ visible }: { visible: boolean }) {
     <div className={visible ? 'visible' : 'invisible'}>
       <div className="fixed inset-0 w-screen h-screen overflow-hidden z-0">
         <video
-                ref={videoRef}
+          ref={videoRef}
           controls
           autoPlay
           muted
           playsInline
+          webkit-playslinline="true"
           style={{ width: "100%" }}
         />
         {/*Blocks pointer events from reaching the iframe so hovering never triggers YouTube's overlay controls*/}
