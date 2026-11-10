@@ -92,13 +92,14 @@ function Home({ visible }: { visible: boolean }) {
           autoPlay
           muted
           playsInline
-          style={{
-            width: "100%",
-            background: "#000",
-            opacity: ready ? 1 : 0,
-          }}
+          // Same cover sizing/framing the YouTube iframe used: the box is always at least
+          // 16:9-cover of the viewport, shifted per breakpoint. object-cover fills the box
+          // even if the stream's aspect ratio isn't exactly 16:9.
+          // adjust here when camera moves
+          className="absolute top-1/2 sm:left-1/8 md:left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-[58%] -translate-y-1/2 md:-translate-x-1/2 scale-[1.15] object-cover pointer-events-none bg-black"
+          style={{ opacity: ready ? 1 : 0 }}
         />
-        {/*Blocks pointer events from reaching the iframe so hovering never triggers YouTube's overlay controls*/}
+        {/*Blocks pointer events from reaching the video so native controls/gestures never trigger*/}
         <div className="absolute inset-0 z-1 bg-transparent" />
       </div>
 
