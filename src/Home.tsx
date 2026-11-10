@@ -3,30 +3,8 @@ import { useEffect, useState, useRef } from "react";
 import flakkenFlag from "./assets/flakken_logo.png";
 import Hls from "hls.js";
 
-const SPLASH_DURATION_MS = 2000;
 const SPLASH_FADE_MS = 400;
 const DOT_INTERVAL_MS = 400;
-
-const visibilityListener = () => {
-  if (document.visibilityState === "hidden") {
-    return;
-  }
-
-  const stream = document.getElementById("stream");
-  if (stream == null) {
-    console.error("Couldn't find stream elemenet");
-    return;
-  }
-
-  (stream as HTMLIFrameElement).contentWindow?.postMessage(
-    JSON.stringify({
-      event: "command",
-      func: "playVideo",
-      args: [],
-    }),
-    "https://www.youtube.com",
-  );
-};
 
 const STREAM_URL = "https://stream.flakken.nyc/cam/index.m3u8";
 
@@ -78,24 +56,13 @@ function Home({ visible }: { visible: boolean }) {
       video.addEventListener("loadedmetadata", tryPlay);
     }
 
-    video.addEventListener("playing", () => setReady(true), { once: true });
+    video.addEventListener("playing", () => {
+      setReady(true);
+      setSplashVisible(false);
+    }, { once: true });
 
     return () => {
       hls?.destroy();
-    };
-  }, []);
-
-  // onMounted and onUnmounted
-  useEffect(() => {
-    const hideTimer = setTimeout(
-      () => setSplashVisible(false),
-      SPLASH_DURATION_MS,
-    );
-    document.addEventListener("visibilitychange", visibilityListener);
-
-    return () => {
-      clearTimeout(hideTimer);
-      document.removeEventListener("visibilitychange", visibilityListener);
     };
   }, []);
 
@@ -129,7 +96,6 @@ function Home({ visible }: { visible: boolean }) {
             width: "100%",
             background: "#000",
             opacity: ready ? 1 : 0,
-            transition: "opacity 333ms ease",
           }}
         />
         {/*Blocks pointer events from reaching the iframe so hovering never triggers YouTube's overlay controls*/}
