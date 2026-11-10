@@ -25,7 +25,7 @@ const visibilityListener = () => {
   }), 'https://www.youtube.com');
 }
 
-const STREAM_URL = "https://stream.flakken.nyc/cam";
+const STREAM_URL = "https://stream.flakken.nyc/cam/index.m3u8";
 
 function Home({ visible }: { visible: boolean }) {
   const [splashVisible, setSplashVisible] = useState(true)
@@ -34,39 +34,44 @@ function Home({ visible }: { visible: boolean }) {
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  useEffect(() => {
-      const video = videoRef.current;
-      if (!video) return;
+useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
-      video.muted = true; // set as a real property, not just the attribute
+    video.muted = true; // set as a real property, not just the attribute
 
-      let hls: Hls | undefined;
+    let hls: Hls | undefined;
 
-      const tryPlay = () => {
-        video.play().catch((err) => {
-          console.warn("Autoplay was blocked:", err);
-        });
-      };
+    const tryPlay = () => {
+      video.play().catch((err) => {
+        console.warn("Autoplay was blocked:", err);
+      });
+    };
 
-      if (Hls.isSupported()) {
-        hls = new Hls();
-        hls.loadSource(STREAM_URL);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, tryPlay);
-        hls.on(Hls.Events.ERROR, (_event, data) => {
-          console.error("HLS error:", data);
-        });
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        // Safari native HLS
-        video.src = STREAM_URL;
-        video.addEventListener("loadedmetadata", tryPlay);
-      }
+    if (Hls.isSupported()) {
+      hls = new Hls({
+        lowLatencyMode: false,          // don't chase the live edge aggressively
+        liveSyncDurationCount: 4,       // sit ~4 segments back for more buffer
+        liveMaxLatencyDurationCount: 10,
+        maxBufferLength: 30,
+        backBufferLength: 30,
+      });
+      hls.loadSource(STREAM_URL);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, tryPlay);
+      hls.on(Hls.Events.ERROR, (_event, data) => {
+        console.error("HLS error:", data);
+      });
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      // Safari native HLS
+      video.src = STREAM_URL;
+      video.addEventListener("loadedmetadata", tryPlay);
+    }
 
-      return () => {
-        hls?.destroy();
-      };
-    }, []);
-
+    return () => {
+      hls?.destroy();
+    };
+  }, []);
   // onMounted and onUnmounted
   useEffect(() => {
     const hideTimer = setTimeout(() => setSplashVisible(false), SPLASH_DURATION_MS)
@@ -96,12 +101,10 @@ function Home({ visible }: { visible: boolean }) {
     <div className={visible ? 'visible' : 'invisible'}>
       <div className="fixed inset-0 w-screen h-screen overflow-hidden z-0">
         <video
-          ref={videoRef}
-          controls
+                ref={videoRef}
           autoPlay
           muted
           playsInline
-          webkit-playslinline="true"
           style={{ width: "100%" }}
         />
         {/*Blocks pointer events from reaching the iframe so hovering never triggers YouTube's overlay controls*/}
