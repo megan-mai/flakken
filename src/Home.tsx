@@ -96,7 +96,7 @@ function Home({ visible }: { visible: boolean }) {
           // 16:9-cover of the viewport, shifted per breakpoint. object-cover fills the box
           // even if the stream's aspect ratio isn't exactly 16:9.
           // adjust here when camera moves
-          className="absolute top-1/2 sm:left-1/8 md:left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-[58%] -translate-y-1/2 md:-translate-x-1/2 scale-[1.15] object-cover pointer-events-none bg-black"
+          className="absolute top-1/2 sm:left-1/8 md:left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-[58%] -translate-y-1/2 md:-translate-x-1/2 object-cover pointer-events-none bg-black"
           style={{ opacity: ready ? 1 : 0 }}
         />
         {/*Blocks pointer events from reaching the video so native controls/gestures never trigger*/}
