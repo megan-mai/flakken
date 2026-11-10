@@ -125,7 +125,12 @@ function Home({ visible }: { visible: boolean }) {
           autoPlay
           muted
           playsInline
-          style={{ width: "100%" }}
+          style={{
+            width: "100%",
+            background: "#000",
+            opacity: ready ? 1 : 0,
+            transition: "opacity 333ms ease",
+          }}
         />
         {/*Blocks pointer events from reaching the iframe so hovering never triggers YouTube's overlay controls*/}
         <div className="absolute inset-0 z-1 bg-transparent" />
