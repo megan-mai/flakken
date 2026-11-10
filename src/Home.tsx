@@ -38,11 +38,15 @@ useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = true; // set as a real property, not just the attribute
+    video.muted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+
 
     let hls: Hls | undefined;
 
     const tryPlay = () => {
+      console.log("Calling tryPlay!");
       video.play().catch((err) => {
         console.warn("Autoplay was blocked:", err);
       });
@@ -55,6 +59,9 @@ useEffect(() => {
         liveMaxLatencyDurationCount: 10,
         maxBufferLength: 30,
         backBufferLength: 30,
+        xhrSetup: (xhr) => {
+          xhr.withCredentials = true;
+        },
       });
       hls.loadSource(STREAM_URL);
       hls.attachMedia(video);
@@ -72,6 +79,7 @@ useEffect(() => {
       hls?.destroy();
     };
   }, []);
+
   // onMounted and onUnmounted
   useEffect(() => {
     const hideTimer = setTimeout(() => setSplashVisible(false), SPLASH_DURATION_MS)
@@ -101,7 +109,7 @@ useEffect(() => {
     <div className={visible ? 'visible' : 'invisible'}>
       <div className="fixed inset-0 w-screen h-screen overflow-hidden z-0">
         <video
-                ref={videoRef}
+          ref={videoRef}
           autoPlay
           muted
           playsInline
