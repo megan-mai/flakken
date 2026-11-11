@@ -10,7 +10,6 @@ const STREAM_URL = "https://stream.flakken.nyc/cam/index.m3u8";
 
 function Home({ visible }: { visible: boolean }) {
   const [splashVisible, setSplashVisible] = useState(true);
-  const [needsInteraction, setNeedsInteraction] = useState(false);
   const [splashMounted, setSplashMounted] = useState(true);
   const [dotCount, setDotCount] = useState(0);
 
@@ -28,8 +27,6 @@ function Home({ visible }: { visible: boolean }) {
     let disposed = false;
     let attempts = 0;
 
-    const tryPlay = () => video.play().catch(() => setNeedsInteraction(true));
-
     const start = () => {
       if (disposed) return;
       clearTimeout(startupTimer);
@@ -46,7 +43,7 @@ function Home({ visible }: { visible: boolean }) {
         });
         hls.loadSource(STREAM_URL);
         hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, tryPlay);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => video.play());
         hls.on(Hls.Events.ERROR, (_e, data) => {
           if (!data.fatal) return;
           if (data.type === Hls.ErrorTypes.MEDIA_ERROR && attempts < 3) {
@@ -58,7 +55,7 @@ function Home({ visible }: { visible: boolean }) {
         });
       } else {
         video.src = STREAM_URL;
-        video.addEventListener("loadedmetadata", tryPlay, { once: true });
+        video.addEventListener("loadedmetadata", () => video.play(), { once: true });
       }
 
       // Startup watchdog: if nothing is playing after 12s, rebuild
@@ -146,26 +143,9 @@ function Home({ visible }: { visible: boolean }) {
           // 16:9-cover of the viewport, shifted per breakpoint. object-cover fills the box
           // even if the stream's aspect ratio isn't exactly 16:9.
           // adjust here when camera moves
-          className="absolute top-1/2 sm:left-1/8 md:left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-[58%] -translate-y-1/2 md:-translate-x-1/2 object-cover pointer-events-none bg-black"
+          className="absolute top-1/2 sm:left-1/8 md:left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] translate-x-[-58%] -translate-y-1/2 md:-translate-x-1/2 object-cover pointer-events-none bg-black"
           style={{ opacity: ready ? 1 : 0 }}
         />
-        {needsInteraction && (
-          <button
-            onClick={() => {
-              videoRef.current?.play();
-              setNeedsInteraction(false);
-            }}
-            style={{
-              position: "absolute",
-              inset: 0,
-              margin: "auto",
-              width: 64,
-              height: 64,
-            }}
-          >
-            ▶
-          </button>
-        )}
       </div>
 
       {/*Vignette dims the livestream toward the edges so the nav/title/logo (z-20) stay legible on top of it*/}
