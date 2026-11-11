@@ -10,6 +10,7 @@ const STREAM_URL = "https://stream.flakken.nyc/cam/index.m3u8";
 
 function Home({ visible }: { visible: boolean }) {
   const [splashVisible, setSplashVisible] = useState(true);
+  const [needsInteraction, setNeedsInteraction] = useState(false);
   const [splashMounted, setSplashMounted] = useState(true);
   const [dotCount, setDotCount] = useState(0);
 
@@ -19,49 +20,99 @@ function Home({ visible }: { visible: boolean }) {
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
     video.muted = true;
-    video.playsInline = true;
-    video.autoplay = true;
 
     let hls: Hls | undefined;
+    let retryTimer: ReturnType<typeof setTimeout> | undefined;
+    let startupTimer: ReturnType<typeof setTimeout> | undefined;
+    let disposed = false;
+    let attempts = 0;
 
-    const tryPlay = () => {
-      console.log("Calling tryPlay!");
-      video.play().catch((err) => {
-        console.warn("Autoplay was blocked:", err);
-      });
+    const tryPlay = () => video.play().catch(() => setNeedsInteraction(true));
+
+    const start = () => {
+      if (disposed) return;
+      clearTimeout(startupTimer);
+      hls?.destroy();
+
+      if (Hls.isSupported()) {
+        hls = new Hls({
+          lowLatencyMode: false,
+          liveSyncDurationCount: 3,
+          liveMaxLatencyDurationCount: 10,
+          xhrSetup: (xhr) => {
+            xhr.withCredentials = true;
+          },
+        });
+        hls.loadSource(STREAM_URL);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, tryPlay);
+        hls.on(Hls.Events.ERROR, (_e, data) => {
+          if (!data.fatal) return;
+          if (data.type === Hls.ErrorTypes.MEDIA_ERROR && attempts < 3) {
+            attempts++;
+            hls?.recoverMediaError();
+          } else {
+            scheduleRestart();
+          }
+        });
+      } else {
+        video.src = STREAM_URL;
+        video.addEventListener("loadedmetadata", tryPlay, { once: true });
+      }
+
+      // Startup watchdog: if nothing is playing after 12s, rebuild
+      startupTimer = setTimeout(() => {
+        if (video.readyState < 3) scheduleRestart();
+      }, 12000);
     };
 
-    if (Hls.isSupported()) {
-      hls = new Hls({
-        lowLatencyMode: false, // don't chase the live edge aggressively
-        liveSyncDurationCount: 4, // sit ~4 segments back for more buffer
-        liveMaxLatencyDurationCount: 10,
-        maxBufferLength: 30,
-        backBufferLength: 30,
-        xhrSetup: (xhr) => {
-          xhr.withCredentials = true;
-        },
-      });
-      hls.loadSource(STREAM_URL);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, tryPlay);
-      hls.on(Hls.Events.ERROR, (_event, data) => {
-        console.error("HLS error:", data);
-      });
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      // Safari native HLS
-      video.src = STREAM_URL;
-      video.addEventListener("loadedmetadata", tryPlay);
-    }
+    const scheduleRestart = () => {
+      if (disposed) return;
+      clearTimeout(retryTimer);
+      attempts = 0;
+      retryTimer = setTimeout(start, 3000);
+    };
 
-    video.addEventListener("playing", () => {
+    const onPlaying = () => {
+      clearTimeout(startupTimer);
+      attempts = 0;
       setReady(true);
       setSplashVisible(false);
-    }, { once: true });
+    };
+    video.addEventListener("playing", onPlaying);
+
+    // Existing stall watchdog: rebuild if frozen for 15s, not just seek
+    let lastTime = -1;
+    let lastChange = Date.now();
+    const watchdog = setInterval(() => {
+      if (video.currentTime !== lastTime) {
+        lastTime = video.currentTime;
+        lastChange = Date.now();
+      } else if (!video.paused && Date.now() - lastChange > 15000) {
+        lastChange = Date.now();
+        scheduleRestart();
+      }
+    }, 3000);
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        if (video.paused || video.readyState < 3) scheduleRestart();
+        else if (hls?.liveSyncPosition)
+          video.currentTime = hls.liveSyncPosition;
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+
+    start();
 
     return () => {
+      disposed = true;
+      clearTimeout(retryTimer);
+      clearTimeout(startupTimer);
+      clearInterval(watchdog);
+      video.removeEventListener("playing", onPlaying);
+      document.removeEventListener("visibilitychange", onVisible);
       hls?.destroy();
     };
   }, []);
@@ -83,7 +134,6 @@ function Home({ visible }: { visible: boolean }) {
     return () => clearInterval(dotTimer);
   }, [splashMounted]);
 
-
   return (
     <div className={visible ? "visible" : "invisible"}>
       <div className="fixed inset-0 w-screen h-screen overflow-hidden z-0">
@@ -99,8 +149,23 @@ function Home({ visible }: { visible: boolean }) {
           className="absolute top-1/2 sm:left-1/8 md:left-1/2 w-screen h-screen min-w-[177.78vh] min-h-[56.25vw] -translate-x-[58%] -translate-y-1/2 md:-translate-x-1/2 object-cover pointer-events-none bg-black"
           style={{ opacity: ready ? 1 : 0 }}
         />
-        {/*Blocks pointer events from reaching the video so native controls/gestures never trigger*/}
-        <div className="absolute inset-0 z-1 bg-transparent" />
+        {needsInteraction && (
+          <button
+            onClick={() => {
+              videoRef.current?.play();
+              setNeedsInteraction(false);
+            }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              margin: "auto",
+              width: 64,
+              height: 64,
+            }}
+          >
+            ▶
+          </button>
+        )}
       </div>
 
       {/*Vignette dims the livestream toward the edges so the nav/title/logo (z-20) stay legible on top of it*/}
