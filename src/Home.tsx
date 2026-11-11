@@ -86,7 +86,7 @@ function Home({ visible }: { visible: boolean }) {
       if (video.currentTime !== lastTime) {
         lastTime = video.currentTime;
         lastChange = Date.now();
-      } else if (!video.paused && Date.now() - lastChange > 15000) {
+      } else if (!video.paused && Date.now() - lastChange > 6000) {
         lastChange = Date.now();
         scheduleRestart();
       }
